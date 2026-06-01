@@ -1,4 +1,5 @@
-[README.md](https://github.com/user-attachments/files/28469332/README.md)
+[README.md](https://github.com/user-attachments/files/28469485/README.md)
+
 # AutoResearch: Top-100 S&P 500 Stock Close Direction Prediction
 
 Predict whether each stock's **closing price will go UP or DOWN** relative to the previous day.
@@ -13,8 +14,8 @@ Predict whether each stock's **closing price will go UP or DOWN** relative to th
 
 Across 38 controlled experiments and 9 model families, HistGBT outperformed every alternative
 tested — including Random Forest, MLP, SVM, AdaBoost, and Logistic Regression.
-The +19.8pp gap over Logistic Regression is the largest single improvement in the project
-and came from one model class change, not from feature engineering or hyperparameter tuning.
+The +19.8pp gap over Logistic Regression came from one model class change, not from
+feature engineering or hyperparameter tuning.
 
 ---
 
@@ -44,22 +45,13 @@ autoresearch-stocks/
 ├── fred_rates.csv            # FEDFUNDS interest rate data (2020–2024)
 ├── program.md                # Agent instructions — Init / Loop / Finalize structure
 │
-├── autonomous_loop.py        # Runs 6 experiments automatically (Init + Loop + Finalize)
-├── generate_charts.py        # Regenerates all outputs from results_custom.tsv
+├── autonomous_loop.py        # Runs 6 experiments automatically
 │
 ├── results_custom.tsv        # Full experiment log (38 runs)
 ├── experiment_archive.md     # Annotated log of all runs with decisions
 ├── final_results_table.md    # Clean model comparison table
 ├── performance.png           # Accuracy + F1 over all runs (auto-generated)
-├── model_comparison.png      # Best accuracy per model class (auto-generated)
-│
-├── final_report.tex          # NeurIPS 2026 paper (LaTeX source)
-├── final_report.pdf          # Compiled 4-page report
-├── reflection_memo.md        # Honest assessment of agent performance
-│
-└── revised_project_statement_wk6.md   # Project statement with research question,
-    agent_strategy_wk6.md              # data, approach, and AI agent plan
-    final_two_week_plan_wk6.md
+└── model_comparison.png      # Best accuracy per model class (auto-generated)
 ```
 
 **Key rule**: the agent may only modify `model.py`. Everything else is frozen.
@@ -68,7 +60,7 @@ autoresearch-stocks/
 
 ## Setup
 
-### 1. Install Python dependencies
+### Install Python dependencies
 
 Requires **Python 3.10+**.
 
@@ -83,12 +75,12 @@ pip install scikit-learn matplotlib numpy pandas yfinance
 | numpy / pandas | Data manipulation |
 | yfinance | Real OHLCV price data for 100 S&P 500 stocks + SPY + VIX |
 
-### 2. FRED interest rate data
+### FRED interest rate data
 
 `fred_rates.csv` is already included (FEDFUNDS 2020–2024).
 To update: download a new CSV from [fred.stlouisfed.org](https://fred.stlouisfed.org) and replace the file.
 
-### 3. Verify setup
+### Verify setup
 
 ```bash
 python run_custom.py "test run" --discard
@@ -108,32 +100,22 @@ python run_custom.py "test run" --discard
 python autonomous_loop.py
 ```
 
-This follows a strict 3-phase structure:
+Follows a strict 3-phase structure:
 
-**INIT** — reads `program.md` for rules, finds current best accuracy from `results_custom.tsv`
+**INIT** — reads `program.md` for rules, finds current best from `results_custom.tsv`
 
 **LOOP x6** — for each candidate config:
 1. Edits `model.py` with one change
 2. Runs `python run_custom.py "<description>"`
-3. Compares val_accuracy to current best
-   - Improved: KEEP, update checkpoint
-   - Not improved: REVERT `model.py`
+3. val_accuracy improved → KEEP / not improved → REVERT `model.py`
 
-**FINALIZE** — runs `generate_charts.py` to update all outputs
+**FINALIZE** — regenerates all charts and docs from `results_custom.tsv`
 
 ### Run a single experiment manually
 
 ```bash
-python run_custom.py "HistGBT depth=6 lr=0.10 iter=1000 balanced"
-# use --baseline for the first run, --discard for experiments that don't improve
-```
-
-### Regenerate all charts and docs
-
-```bash
-python generate_charts.py
-# Updates: performance.png, model_comparison.png,
-#          experiment_archive.md, final_results_table.md
+python run_custom.py "description of change"
+# flags: --baseline (first run only), --discard (no improvement)
 ```
 
 ---
@@ -162,8 +144,8 @@ python generate_charts.py
 | AdaBoost | 0.5319 | +0.5pp |
 | LinearSVC | 0.5229 | -0.4pp |
 | Bagging (DT) | 0.6217 | +9.5pp |
-| Extra Trees | 0.6438 | +17.1pp |
 | MLP (128-64) | 0.6476 | +12.1pp |
+| Extra Trees | 0.6438 | +17.1pp |
 | Random Forest | 0.6976 | +17.1pp |
 | **HistGBT** | **0.7245** | **+19.8pp** |
 
@@ -189,15 +171,13 @@ python generate_charts.py
 | File | Description |
 |------|-------------|
 | `model.py` | Current best model config — the only editable file |
-| `prepare_custom.py` | Frozen data pipeline: downloads prices, engineers 41 features, splits data |
-| `run_custom.py` | Frozen runner: trains model, evaluates, appends row to results_custom.tsv |
+| `prepare_custom.py` | Frozen pipeline: downloads prices, engineers 41 features, splits data |
+| `run_custom.py` | Frozen runner: trains model, evaluates, appends to results_custom.tsv |
+| `fred_rates.csv` | FEDFUNDS monthly interest rate data, forward-filled to daily |
 | `program.md` | Agent rules: Init/Loop/Finalize structure, keep/discard/crash rule, search strategy |
 | `autonomous_loop.py` | Automated loop: runs 6 experiments, updates all outputs at the end |
-| `generate_charts.py` | Reads results_custom.tsv, writes all charts and markdown docs |
 | `results_custom.tsv` | Append-only log of every experiment run |
 | `experiment_archive.md` | Human-readable log with decisions and reasons |
-| `final_results_table.md` | Clean comparison table, auto-generated |
+| `final_results_table.md` | Clean model comparison table, auto-generated |
 | `performance.png` | Accuracy and F1 across all runs, auto-generated |
 | `model_comparison.png` | Best accuracy per model class, auto-generated |
-| `final_report.pdf` | 4-page NeurIPS 2026 formatted paper |
-| `reflection_memo.md` | Student reflection on agent performance and lessons learned |
