@@ -1,0 +1,39 @@
+experiment	val_acc	val_f1	status	description
+no-git	0.526723	0.416083	baseline	LR baseline real data + rate + ma5
+no-git	0.522502	0.477127	baseline	LR baseline 41 features
+no-git	0.518586	0.517958	discard	LR class_weight=balanced
+no-git	0.692754	0.688466	discard	HistGBT depth=4 lr=0.05 iter=300
+no-git	0.645004	0.640141	discard	RandomForest n=200 depth=8 balanced
+no-git	0.708263	0.708101	discard	HistGBT depth=4 lr=0.05 iter=500 balanced
+no-git	0.705975	0.705809	baseline	HistGBT iter=500 depth=4 lr=0.05 balanced [wk4 baseline]
+no-git	0.638139	0.637871	discard	HistGBT iter=500 depth=2 lr=0.05 balanced
+no-git	0.720620	0.720308	discard	HistGBT iter=500 depth=6 lr=0.05 balanced
+no-git	0.720163	0.719897	discard	HistGBT iter=500 depth=8 lr=0.05 balanced
+no-git	0.646580	0.646271	discard	HistGBT iter=500 depth=4 lr=0.01 balanced
+no-git	0.714925	0.714681	discard	HistGBT iter=500 depth=4 lr=0.10 balanced
+no-git	0.705111	0.704786	discard	HistGBT iter=500 depth=4 lr=0.05 balanced seed=99 [stability]
+no-git	0.724027	0.723671	keep	HistGBT depth=6 lr=0.05 iter=500 balanced [auto]
+no-git	0.723468	0.723170	discard	HistGBT depth=6 lr=0.10 iter=500 balanced [auto]
+no-git	0.720875	0.720571	discard	HistGBT depth=6 lr=0.05 iter=800 balanced [auto]
+no-git	0.720010	0.719660	discard	HistGBT depth=6 lr=0.10 iter=800 balanced [auto]
+no-git	0.720264	0.719966	discard	HistGBT depth=6 lr=0.05 iter=500 l2=0.5 balanced [auto]
+no-git	0.723163	0.722819	discard	HistGBT depth=6 lr=0.05 iter=500 min_samples=30 balanced [auto]
+no-git	0.697585	0.696775	discard	RandomForest n=500 depth=12 balanced [validate]
+no-git	0.643834	0.637680	discard	ExtraTrees n=500 depth=12 balanced [validate]
+no-git	0.531909	0.378505	discard	AdaBoost n=200 lr=0.5 [validate]
+no-git	0.621714	0.582281	discard	BaggingClassifier n=100 depth=8 balanced [validate]
+no-git	0.522909	0.470420	discard	LinearSVC C=0.1 balanced [validate]
+no-git	0.647648	0.645089	discard	MLP 128-64 relu balanced [validate]
+no-git	0.519756	0.519176	discard	RidgeClassifier alpha=1.0 balanced [validate]
+no-git	0.714518	0.714248	discard	HistGBT depth=5 lr=0.05 iter=500 balanced [auto]
+no-git	0.719908	0.719590	discard	HistGBT depth=6 lr=0.08 iter=600 balanced [auto]
+no-git	0.677091	0.675065	discard	RandomForest n=300 depth=10 balanced [auto]
+no-git	0.720468	0.720133	discard	HistGBT depth=6 lr=0.05 iter=500 max_bins=128 balanced [auto]
+no-git	0.719705	0.719443	discard	HistGBT depth=7 lr=0.05 iter=500 balanced [auto]
+no-git	0.724536	0.724248	keep	HistGBT depth=6 lr=0.10 iter=1000 balanced [auto]
+no-git	0.722502	0.722154	discard	HistGBT depth=6 lr=0.10 iter=1200 balanced [auto]
+no-git	0.722248	0.721972	discard	HistGBT depth=6 lr=0.10 iter=1500 balanced [auto]
+no-git	0.722604	0.722244	discard	HistGBT depth=6 lr=0.10 iter=1000 l2=0.1 balanced [auto]
+no-git	0.723316	0.722965	discard	HistGBT depth=6 lr=0.10 iter=1000 min_samples=20 balanced [auto]
+no-git	0.719298	0.719018	discard	HistGBT depth=7 lr=0.10 iter=1000 balanced [auto]
+no-git	0.721485	0.721173	discard	HistGBT depth=6 lr=0.05 iter=1000 balanced [auto]
